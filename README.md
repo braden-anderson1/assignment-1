@@ -54,6 +54,8 @@ emotion, and an explorable per-review table (filter + search + live count).
 `generate_dashboard.py` / `generate_dashboard_full.py` from
 `predictions_nrc.jsonl`.
 
+![Dashboard screenshot](assets/dashboard.png)
+
 ## Usage
 
 ```bash
