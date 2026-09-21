@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gift Card Review Classifier — 3-class LLM vs NRC Dashboard</title>
+<style>
+  :root{--green:#1a8f5c;--greenbg:#e7f6ee;--red:#c0433a;--redbg:#fbecea;--amber:#b98a00;--amberbg:#fdf3d7;
+        --ink:#1c2333;--mut:#5c6472;--line:#e4e7ee;--bg:#f5f7fb;--card:#fff;}
+  *{box-sizing:border-box}
+  body{margin:0;padding:32px;background:var(--bg);color:var(--ink);
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:22px 0 8px}h3{font-size:14px;margin:14px 0 4px}
+  .sub{color:var(--mut);font-size:13px;margin-bottom:20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .kpi .num{font-size:26px;font-weight:650;letter-spacing:-.5px}
+  .kpi .lbl{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:860px){.grid2{grid-template-columns:1fr}}
+  table.cm{border-collapse:separate;border-spacing:8px;width:100%;table-layout:fixed}
+  table.cm td{text-align:center;border-radius:10px;padding:12px 6px;overflow:hidden}
+  .cm .lbl{color:var(--mut);font-size:11px;margin-top:4px}.cm .big{font-size:22px;font-weight:700}
+  table.cm .cok{background:var(--greenbg)}table.cm .cbad{background:var(--redbg)}
+  .labelfooter{text-align:center;color:var(--mut);font-size:12px;margin-top:10px}
+  .classview .ant{background:#eef2ff}
+  .cv-row{margin:16px 0}
+  .cv-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .cv-head b{font-size:15px}.cv-head .cv-meta{color:var(--mut);font-size:12px}
+  .seg{display:flex;height:38px;border-radius:9px;overflow:hidden;border:1px solid var(--line)}
+  .seg .s{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:#fff;white-space:nowrap;overflow:hidden}
+  .seg .s.okseg{background:var(--green);min-width:70px}
+  .seg .s.badseg-w{background:#8a93a6}.seg .s.badseg-m{background:#b8c2d4}
+  .seg .s.badseg-b{background:#c08681}.seg .s.badseg-r{background:#c0433a}
+  .seg .s .tick{font-weight:800}
+  .cv-desc{font-size:13px;color:var(--mut);margin-top:5px}
+  .cv-desc b.g{color:var(--green)}.cv-desc b.x{color:var(--red)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:8px 0 2px;font-size:12px;color:var(--mut)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .dot{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .barwrap{margin:9px 0}.barrow{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:3px}
+  .bar{height:16px;border-radius:5px;background:#eef0f5;overflow:hidden}
+  .bar>span{display:block;height:100%;background:var(--red)}.bar>span.bok{background:var(--green)}
+  .pill{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap}
+  .p-pos{background:#e8f4fd;color:#1467a8}.p-neu{background:#f0ecdc;color:#8a7230}
+  .p-neg{background:#fdeeee;color:#b03a2e}.ok-pill{background:var(--greenbg);color:var(--green)}
+  .bad-pill{background:var(--redbg);color:var(--red)}.nu-pill{background:#f0f0f4;color:#6a7080}
+  .ag-pill{background:#eef2ff;color:#3f51b5}.di-pill{background:#fdeeee;color:#b03a2e}
+  table.rows{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  table.rows th,table.rows td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.rows th{position:sticky;top:0;background:#fbfcfe;color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  table.rows tr.ok{background:#fff}table.rows tr.bad{background:var(--redbg)}
+  tr.neurow{background:var(--amberbg)}
+  .title{font-weight:550;max-width:190px}.text{color:var(--mut);max-width:330px}
+  tr.bad .title,tr.bad .text{color:#7d2a22}
+  .filters button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 11px;cursor:pointer;
+                  font-size:13px;color:var(--mut);margin-right:5px;margin-bottom:4px}
+  .filters button.active{background:#1c2333;color:#fff;border-color:#1c2333}.filters .cnt{opacity:.6}
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+  .searchbox{position:relative;flex:1 1 220px;max-width:350px}
+  .searchbox input{width:100%;padding:8px 12px 8px 30px;border:1px solid var(--line);border-radius:8px;font-size:13px;color:var(--ink);background:#fff}
+  .searchbox input:focus{outline:none;border-color:#1c2333}
+  .searchbox .mag{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--mut);font-size:13px;pointer-events:none}
+  .livecount{font-size:13px;color:var(--mut);white-space:nowrap}.livecount b{color:var(--ink)}
+  select.emofilter{border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:13px;color:var(--ink);background:#fff}
+  .memo{color:var(--mut);font-size:13px}.method{font-size:13px;color:var(--mut)}
+  .foot{margin-top:28px;color:var(--mut);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<h1>Gift Card Review Classifier — LLM vs NRC Lexicon (3-class)</h1>
+<div class="sub">Same balanced sample, two methods. Labels: <b>rating 4&ndash;5 &rarr; POSITIVE</b>, <b>3 &rarr; NEUTRAL</b>, <b>1&ndash;2 &rarr; NEGATIVE</b>.
+ Sample pulled as a balanced, stratified random draw from the whole file (fixed seed; &asymp;equal per class), not the first rows in order.
+ Both methods use only title + body text; the rating only supplies ground truth.</div>
+
+<div class="kpis">
+  <div class="card kpi"><div class="num" style="color:var(--green)">74.0%</div><div class="lbl">LLM accuracy</div></div>
+  <div class="card kpi"><div class="num" style="color:var(--green)">72.1%</div><div class="lbl">LLM macro-F1</div></div>
+  <div class="card kpi"><div class="num" style="color:var(--amber)">46.4%</div><div class="lbl">NRC accuracy</div></div>
+  <div class="card kpi"><div class="num" style="color:var(--amber)">54.5%</div><div class="lbl">LLM&thinsp;=&thinsp;NRC agree</div></div>
+  <div class="card kpi"><div class="num">40</div><div class="lbl">NRC neutral/tie</div></div>
+  <div class="card kpi"><div class="num">150</div><div class="lbl">Reviews</div></div>
+</div>
+
+<div class="grid2" style="margin-top:16px">
+  <div class="card">
+    <h2 style="margin-top:0">Confusion matrix &mdash; LLM vs ground truth</h2>
+    <table class="cm" id="cm"></table>
+    <div class="labelfooter">Columns = predicted · Rows = actual · green = correct · red = error</div>
+    <h3>Per-class performance (LLM)</h3>
+    <p class="method" id="perclass"></p>
+  </div>
+  <div class="card">
+    <h2 style="margin-top:0">NRC primary emotion (highest summed score)</h2>
+    <div class="bars" id="emobars"></div>
+    <p class="method" style="margin-top:10px"><b>NRC output:</b> LLM predictions
+      NEGATIVE 66 POSITIVE 54 NEUTRAL 30 · NRC sentiment POSITIVE 92 NEUTRAL 40 NEGATIVE 18.</p>
+  </div>
+</div>
+
+<div class="card classview" style="margin-top:16px">
+  <h2 style="margin-top:0">Correct answer vs what the LLM predicted — by class</h2>
+  <p class="method">For each true class, the bar shows how the model answered: the green slice is the correct call
+     (matching the rating band), the other slices are where the model misplaced those reviews.</p>
+  <div class="legend">
+    <span><span class="dot" style="background:var(--green)"></span>predicted correctly (green)</span>
+    <span><span class="dot" style="background:#c08681"></span>predicted POSITIVE</span>
+    <span><span class="dot" style="background:#b8c2d4"></span>predicted NEUTRAL</span>
+    <span><span class="dot" style="background:#c0433a"></span>predicted NEGATIVE</span>
+  </div>
+  <div id="classview"></div>
+</div>
+
+<div class="grid2" style="margin-top:16px">
+  <div class="card">
+    <h2 style="margin-top:0">Method agreement</h2>
+    <p class="method" id="agreeline"></p>
+    <h3>Ground-truth agreement</h3>
+    <p class="method" id="gtruth"></p>
+  </div>
+  <div class="card">
+    <h2 style="margin-top:0">NRC sentiment vs ground truth</h2>
+    <div id="nrcgtr"></div>
+    <p class="method" id="nrcgtdetail"></p>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <h2 style="margin-top:0">Per-Review Detail <span class="memo">(150 rows; red = LLM missed ground truth, amber = NRC neutral)</span></h2>
+  <div class="filters">
+    <div class="toolbar">
+      <div class="filters" id="filters"></div>
+      <div class="searchbox"><span class="mag">&#9906;</span>
+        <input id="search" type="text" placeholder="Search title or text&hellip;" autocomplete="off"></div>
+      <div class="toolbar">
+        <select id="emofilter" class="emofilter"><option value="">All emotions</option></select>
+        <div class="livecount">Showing <b id="shown">0</b> of <span id="total">0</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="overflow:auto; max-height:620px; margin-top:10px">
+    <table class="rows" id="rows">
+      <thead><tr>
+        <th>#</th><th>Title</th><th>Body (clipped)</th><th>Truth</th>
+        <th>LLM</th><th>NRC</th><th>Primary emotion</th><th>LLM verdict</th><th>Methods</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="foot">
+  <b>Methodology</b> &mdash; <b>LLM:</b> reasoning model (<code>cyankiwi/Qwen3.6-35B-A3B-AWQ-4bit</code>) told to answer
+  exactly POSITIVE/NEUTRAL/NEGATIVE from title+text, weighting body over title on conflict. <b>NRC:</b> token lookup in the
+  NRC Emotion Lexicon v0.92 &mdash; sentiment = sign of summed positive-vs-negative flags (tie/none &rarr; neutral);
+  primary emotion = argmax of the 8 emotion flags. Balanced stratified sample: each class (rating &ge;4 / ==3 / &le;2) is
+  bucketed, shuffled (fixed seed 42), &asymp;50 taken per class, re-shuffled. This page is fully self-contained.
+</div>
+
+<script>
+const DATA=[{"i": 1, "title": "No balance!!!", "text": "2 cents on card freshly received as gift and scratched off code. No way to return??? Help???", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 2, "title": "Four Stars", "text": "very good", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 3, "title": "Came and was already used.", "text": "When I received the card, a company from Overseas had already used the full amount. Going through the process of getting a refund. Company stated it would take anywhere from 30-90 days.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": null, "decided": true, "agree": false}, {"i": 4, "title": "What\u2019s the point", "text": "Eh,  it cost five dollars to buy and then you can\u2019t even use everywhere nor can you get cash back when needed.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "POSITIVE", "emo": "anger", "decided": true, "agree": false}, {"i": 5, "title": "Defective and unusable card!", "text": "Bought this card as an extra Christmas gift, didn't need it, went to put it on my account and the card didn't work, spent 30 min on the phone with customer service only to have them tell me they have to research it! Unbelievable, so glad I didn't give it as a gift that would have been extremely embarrassing.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 6, "title": "Great presentation box", "text": "I gave this as a gift  and it made a great impression.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 7, "title": "Amazon.com Gift Card Balance Reload", "text": "I received you payment method from Marriott Rewards.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 8, "title": "It is so easy, and a nice gift", "text": "I have a 30 year old grandson who has degree from computer science.  A gift card is just his favorite !!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": true}, {"i": 9, "title": "Perfect gift", "text": "Great gift option", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 10, "title": "They really cute but don't have the amount of the ...", "text": "They really cute but don't have the amount of the giftcard anywhere on them or even a place to write the amount or a to and from.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": null, "decided": true, "agree": false}, {"i": 11, "title": "good for birthdays", "text": "I give this to friends or family on special days", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": false}, {"i": 12, "title": "Love this card.", "text": "Great gift card, a wonderful gift.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": true}, {"i": 13, "title": "Gift card in cupcake tin", "text": "Purchased this gift card with cupcake tin for a gift.  Tin arrived damaged.  Had been crushed with insufficient protective packaging.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 14, "title": "The tins are dented, scratched & dirty! They look used!", "text": "I had previously ordered Amazon gift cards in the Diamond Plate Tin, but the gift cards were no longer available in the $100 increment.  So I ordered the Brown & Blue Tin. I am so disappointed!!<br />I ordered 10 and every single tin has a scratch or dent on it & ALL of them were dirty with smudges of something on them!  NONE of them were in a protective clear plastic cover.<br />I'm very disappointed.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": "disgust", "decided": false, "agree": false}, {"i": 15, "title": "Fast shipping!", "text": "The gift card was shipped very quickly. Thank you!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 16, "title": "The gift message was not delivered. The gift card was received on time.", "text": "The delivery was quick but the gift message did not go through, so we are disappointed for that.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 17, "title": "Millennial gifts from a Grandmother!!", "text": "I have 2 granddaughters in their mid-twenties and had no idea what to give them for Christmas gifts!  They are both hooked on buying from Amazon so I chose to send them gift cards so they would be able to choose a Christmas gift of their own choosing!  They each were excited  to receive the gift cards and make their own choice of what they got for a Christmas gift from Gram and Gpa!!!  Thx for making so easy to do!!!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 18, "title": "Meldy", "text": "Perfect fuft", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 19, "title": "Five Stars", "text": "works great", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 20, "title": "Some discounts better than nothing", "text": "Yeah it's saved me $10 on a hundred", "label": "NEUTRAL", "pred": "POSITIVE", "ok": false, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 21, "title": "Don't buy", "text": "Declines to much", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 22, "title": "Load time inconsistent.", "text": "Doesnt always load load immediately. If it were consistent or there was at least a warning about the load time immediately  prior to purchase I would up the stars. Do not reccommend if you need to make an immediate purchase.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEUTRAL", "emo": "anticipation", "decided": false, "agree": false}, {"i": 23, "title": "Bonus $5 is great when you can find this time of year.", "text": "Occasionaly you will see buy $100 get $5 free at amazon. Take advantagae it you can. watch websites such as fatwalllet to see when they are available.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 24, "title": "i can buy two or three thousand dollar product without ...", "text": "i can buy two or three thousand dollar product without my card number having t be put in.  but if i want to add one hundred dollars to my account i have to put in my card number.  don't make sense to me.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "POSITIVE", "emo": "trust", "decided": true, "agree": false}, {"i": 25, "title": "Three Stars", "text": "NICE", "label": "NEUTRAL", "pred": "POSITIVE", "ok": false, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 26, "title": "Easy to reload", "text": "Convenient!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": null, "decided": true, "agree": true}, {"i": 27, "title": "Four Stars", "text": "Easy :)", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 28, "title": "DO NOT BUY", "text": "Card doesn\u2019t work and unable to return. Rip off will never buy a gift card from amazon again!!!!!", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": "anticipation", "decided": false, "agree": false}, {"i": 29, "title": "Perfect Gift", "text": "Can't go wrong with a Amazon Gift Card....", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 30, "title": "Card not activated", "text": "One of the 2 cards did not work", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 31, "title": "Awesome little box", "text": "Honestly this is just a gift card but the little box is cool enough that you don't feel like a total piece of garbage for not actually shopping for something meaningful.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 32, "title": "Five Stars", "text": "As expected", "label": "POSITIVE", "pred": "NEUTRAL", "ok": false, "nrc": "NEUTRAL", "emo": "anticipation", "decided": false, "agree": false}, {"i": 33, "title": "Gift Card", "text": "No commednt", "label": "POSITIVE", "pred": "NEUTRAL", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 34, "title": "Five Stars", "text": "Easy and quick.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 35, "title": "Four Gift Card Limit", "text": "This is a review of the apparent lifetime limit of four Papa John's Gift Cards. Can't order more than four, ever apparently. I order 4 a week ago and now whenever I go to reorder them this seller does not allow it. They just get knocked out of my cart when I go to checkout. Used to order them 20 at a time, but now there's some limit? So you don't want my money? WTF?", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 36, "title": "Nice giftable tin package.", "text": "Purchased this item for my grandson who likes to do his shopping on AMAZON!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 37, "title": "Great product !", "text": "I'm very pleased with the cards. I'm giving them as gifts for Christmas. My grandchildren of various ages are going to be so happy. They all love amazon!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": true}, {"i": 38, "title": "Be careful", "text": "Check the Fandango website fist but MAKE SURE YOU CLICK THE \"FANDANGO THEATERS\" ... because what comes up first is ALL theaters!!!!!! The two in my area are not very close at all once I realized my oversight!!!!!!!!!!!!!!", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 39, "title": "Can't use on switch", "text": "Misleading! Can't be used on the switch", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "anger", "decided": true, "agree": true}, {"i": 40, "title": "Unable to use on the website", "text": "I was unable to use on the website.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "sadness", "decided": true, "agree": true}, {"i": 41, "title": "High Purchase Fee", "text": "I find the $5.95 purchase fee to be high.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEGATIVE", "emo": "anger", "decided": true, "agree": true}, {"i": 42, "title": "The card was correct but......", "text": "The correct card and balance were delivered but it's absolutely disgusting. Has all sorts of dirty and grime all over the card the packaging. I would expect this if I was buying used from an individual person but not from Sally's. Someone needs to do a better job of final checks before packaging.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": "disgust", "decided": false, "agree": false}, {"i": 43, "title": "Nothing on gift card when my daughter tried to use it!", "text": "How could there have been nothing on this gift card when my daughter tried to use it this week?  I bought it, and it never seemed to have been tampered with, but Sonic said there was nothing on it.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": false}, {"i": 44, "title": "Easy and Fast E-Delivery", "text": "Super fast delivery and no problems what so ever!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 45, "title": "Tacky as a gift if there's no value indication", "text": "Ordered a few. On the first one I'm about to use, there is no indication on the card (white) regarding the value placed on the card. I had to investigate the serial number on my various orders and then write the value on the card with black permanent marker. Indeed the image doesn't show a value in the corner, but I thought it was because it was generic. Kinda tacky as a gift.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 46, "title": "Unhappy & Upset", "text": "Shipping envelope with black box inside arrived June 9 as expected.  However there was no gift card for $100 inside the box. Spoke with Amazon rep.  They did an investigation.  She informed me that our gift card had been spent entirely on June 8, 2020 one day before it arrived on our porch.  Clearly this issue should be on Amazon. She said they would investigate more & call me w/I 5 days. It\u2019s been 5 days & no call from Amazon & now we have gone past their 30 day window for refunds or a credit.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 47, "title": "Five Stars", "text": "Gave as a gift and was what the person wanted so she could get what she really wanted later.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 48, "title": "Frustrating", "text": "Was not redeemable", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 49, "title": "Five Stars", "text": "I like it .", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 50, "title": "Not sure how to get the $10 bonus as advertised?", "text": "When I got this I was supposed to get a $10 credit or something.  Not sure how to see if that ever happened?  Would love some feedback on this.<br /><br />Otherwise what's not to like about an Amazon card?  It is for my kid.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": false}, {"i": 51, "title": "OK", "text": "Again Ditto", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 52, "title": "Three Stars", "text": "ok as promised", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 53, "title": "Work great but Guaranteed Delivery Next Day is NOT Guaranteed! 4 Days Later...", "text": "I have ordered and/or received (as gifts) multiple over the last year, and as long as you follow the instructions carefully, they work great! You cannot use it at certain places unless you register it so they have an address linked. You can use it as credit too. When you swipe it and it asks for the pin, press clear/cancel and it brings you to a new screen where you can choose credit and it works. I am not giving 5 stars simply because Amazon guaranteed delivery by 9pm the next day, and I did not receive it until 4 days later...", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 54, "title": "Don't waste your time or money", "text": "This card doesn't work for 75% of things. Customer service isnt helpful. The girl I spoke with first tried to tell me it only works for 711 and Macy's , but then tried to back track and just kept answering everything with referring me to the website which btw is also useless. This card is nothing more than a ticket to gaurenteed prolonged annoyance.<br />Oh and ps, it doesn't advertise but there's no cash access. It can't be used for ATMs, cash back, or third party sites like PayPal and money gram.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 55, "title": "Giftcard", "text": "This was a great gift for my mom.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 56, "title": "Just the thing!", "text": "Really cute. Next day delivery. Got me out of a bind!!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 57, "title": "Five Stars", "text": "Fast and easy to use!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 58, "title": "DO NOT BUY GIFT CARDS THROUGH AMAZON", "text": "AMAZON deactivated all of my $300 worth of gift cards in November 2019.  It has been a nightmare.<br />After going around and around with various payment methods and a credit card dispute....they just sent me another email demanding payment for the gift cards which won't work! (MaRCH 2020).  This all started and was resolved in NOVEMBER 2019.  Apparently one arm of Amazon doesn't know what the other is doing!!!!!", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 59, "title": "I purchased this on as a gift for my boyfriend ...", "text": "I purchased this on as a gift for my boyfriend on one of the daily deals around Christmas time.  We got it to work, but it was not as convenient as purchasing from the ticket counter.  If you're late at all to a movie (i.e., you show up 5 mins late because there are 20 mins of previews), you can't purchase because the start time has passed.  BUT, since I got it at a discount it was worth it.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 60, "title": "The real deal", "text": "Worked in-store and online", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 61, "title": "made grand child happy", "text": "every one loved them", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 62, "title": "Huh", "text": "Have no idea", "label": "NEGATIVE", "pred": "NEUTRAL", "ok": false, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 63, "title": "I don't really see the point.", "text": "It is simple to use to pay for an order, but I don't see the advantage of paying in advance.  It is a gift card for me. Right?  Value for the money?  What am I missing?", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 64, "title": "My mom got the gift card, but the Mother's ...", "text": "My mom got the gift card, but the Mother's Day card was not in the envelope, and the note I wrote to her was not included.  It wasn't put together as a gift, just in parts.  The only reason she knew it was from me was because I told her to expect something in the mail.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 65, "title": "Three Stars", "text": "this came 1 week late don't buy it", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEGATIVE", "emo": "sadness", "decided": true, "agree": true}, {"i": 66, "title": "Did not perform as advertised!", "text": "Very confusing trying to reload from a prepaid card. It kept defaulting to a card on file.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 67, "title": "Taking a while to receive it", "text": "It\u2019s been 22 hours so far, my reload is still stuck in processing. Much more than 5 minutes, keeping me worried.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "sadness", "decided": true, "agree": true}, {"i": 68, "title": "Wonderful \u2763\ufe0f", "text": "It's really help", "label": "NEGATIVE", "pred": "POSITIVE", "ok": false, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": true}, {"i": 69, "title": "Really cute for graduation parties", "text": "Really cute box!! Would definitely buy it again plus it came the next day.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 70, "title": "I want to cancel this order. \ud83d\ude29", "text": "I did just order it 5 minutes ago", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "sadness", "decided": true, "agree": true}, {"i": 71, "title": "Five Stars", "text": "Received in excellent condition (gift).", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": true}, {"i": 72, "title": "Three Stars", "text": "it's a gift certificate, for heaven's sake", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 73, "title": "The amount is not posted on the gift card.", "text": "The amount is not posted on the gift card. It\u2019s packaged very nicely and I love Amazon but I really wish the amount was on it.  Isn\u2019t that what everybody looks at , even if they don\u2019t say that!", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": false}, {"i": 74, "title": "Ange", "text": "Using the amazon gift cards is the best way to go. I ask my children to give me gift card for Christmas.", "label": "NEUTRAL", "pred": "POSITIVE", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 75, "title": "Scam for 20%. Any buca lets you join eclub ...", "text": "Scam for 20%.  Any buca lets you join eclub for free.  Send out free stuff and 20% off coupons all the time. Save your money...black friday savings my butt. Buca kicks butt!", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 76, "title": "Gift card cracked and box came damaged", "text": "Not presentable as a gift.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 77, "title": "The box was scratched.", "text": "No point in getting a fancy box when it arrives with scratches.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 78, "title": "Easy", "text": "Easy", "label": "POSITIVE", "pred": "NEUTRAL", "ok": false, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 79, "title": "Three Stars", "text": "The &#34;fine&#34; tin made the b-day gift a very cute present!<br />Thanks!", "label": "NEUTRAL", "pred": "POSITIVE", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 80, "title": "Putting $100 reload on my gift card", "text": "Thank you very much for the $10 bonus cash and 5% Rewards cash for loading $100 or more to my Amazon gift. I would not have added any money to it, I mean what for I don't need the gift card, BUT !!! for the extra $15 Why Would I Not add the money to it.  Thank You", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 81, "title": "Amazon Will NOT replace LOST or STOLEN cards!!!", "text": "Wouldn't recommend ordering gift cards through Amazon. If your gift card gets lost or stolen Amazon will not replace your card.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "anger", "decided": true, "agree": true}, {"i": 82, "title": "Irritating Purchase - Has my gift giving a mess!!", "text": "They are not labeled as how much is on each card \u2026 I bought different denominations\u2026 now I\u2019m pretty irritated that I have had to open each card \u2026 they now look used and I still have  no one idea which amounts each of these 4 cards are to give to the correct person ????", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 83, "title": "so stupid: (", "text": "the gift card didnt work and I paid for it .. so stupid :(", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 84, "title": "Three Stars", "text": "It's a gift card in a nice tin box.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 85, "title": "Duh", "text": "Hello awesome money for free from other people.  Oh, you also can be given to other people instead of hours and extra money on junk they don't even like? Perfect.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 86, "title": "not acceptable for canadian phrmacy on-line purchases", "text": "not acceptable for canadian pharmacy on-line purchases.  for which i purchased it.  but was acceptable for purchases  in local stores for which i already had charge cards,  card has a number, but no issue date or associated bank/city.  would make a nice gift if the limitations were clearly stated.  l", "label": "NEGATIVE", "pred": "NEUTRAL", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 87, "title": "Easter", "text": "Love Amazon shopping", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": true}, {"i": 88, "title": "Arrived late", "text": "Basic gift card, works as expected. Arrived very late and had to get a new gift and use myself later...which made the purchase fee a little pointless.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEGATIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 89, "title": "There's usage restriction on this", "text": "There's a restriction on how to use this gift card. It was not included in the description, only on fine print of the card.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEUTRAL", "emo": "anger", "decided": false, "agree": false}, {"i": 90, "title": "Garbage", "text": "Doesnt work", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "disgust", "decided": true, "agree": true}, {"i": 91, "title": "WTF?", "text": "I've no idea what benefit this is and haven't the interest or inclination to read through a plethora of legal jargon especially after all of the negative reviews I've seen.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "sadness", "decided": true, "agree": false}, {"i": 92, "title": "Five Stars", "text": "Easy", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 93, "title": "Great gift", "text": "Great gift for family or friends who live around Bob Evans locations. Gave this as a birthday present to my aging Father. He loves a good breakfast?!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 94, "title": "Word of Caution...", "text": "Works great just like any other gift card. One thing though that is important: THIS MUST BE PRINTED OUT TO BE USED. Cracker Barrel does not accept digital barcodes. My friend and I found this out the hard way.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "trust", "decided": true, "agree": false}, {"i": 95, "title": "Hard call...", "text": "Well, the cards by itself are fine. Good product, well packed. But they were guaranteed for the NEXT DAY delivery by amazon. I placed the order within allotted time frame on Thursday. Friday I did not get them, Saturday I did not get them,..., Monday I did not get them... I finally got them on Tuesday. I am glad that I am not that gullible and did not rely on the promise but what if I did? I think that it is wrong to promise something you cannot possibly deliver. It would be fine with me if they could be guaranteed for 3-5 days delivery, but it is not OK to say next day and still deliver in 5 days.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 96, "title": "Simple to do. I do it all the time.", "text": "Its simple. Very easy. I take a $10.00 Virtual Visa Gift Card and use it to reload my Amazon balance as the Gift Card expires 90 days and at Amazon reload it don't expire.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 97, "title": "Just Awful", "text": "I just spent more than an hour trying to reload my balance. Why did you change the method? This proves the case \u201cWhen it ain\u2019t broken, don\u2019t fix it\u201d. Well I guess I won\u2019t be adding any reloaded balances to my account. Your new method stinks.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "fear", "decided": true, "agree": true}, {"i": 98, "title": "No amount anywhere on the card! Annoying!", "text": "it is literally impossible  to find the amount of the gift cards so if you buy them I suggest you do each one separately if they are different amounts.  I'm just hoping I give the right one to the right person.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "anger", "decided": true, "agree": true}, {"i": 99, "title": "Counterfeit cards", "text": "These cards have too many digits and cannot be used", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 100, "title": "Review", "text": "Cute gift card holder", "label": "NEUTRAL", "pred": "POSITIVE", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 101, "title": "Not Labeled!", "text": "If you order different amounts for your gift cards, I suggest you get a different design for each. They are not labeled and it is impossible to find out their amounts according to the directions. I ended up calling customer service to get the different amounts :/", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 102, "title": "Three Stars", "text": "Dented tin :/", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 103, "title": "Five Stars", "text": "GIFT CARD", "label": "POSITIVE", "pred": "NEUTRAL", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 104, "title": "Works well", "text": "It worked when I used it easy peasy. Was able to use this when needed and without a sitch", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 105, "title": "Amazon GC reload", "text": "I have bought Amazon G.C. credit to add to my Prime account s few times over the years. Disappointing there is NEVER a deal or % off to be found no matter the $ amount, quantity or if you are a Prime member.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "POSITIVE", "emo": "trust", "decided": true, "agree": false}, {"i": 106, "title": "DO NOT BUY", "text": "My gift card came tape on the card. ON THE WRONG SIDE EVEN. Very dissatisfied with purchase", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": "anticipation", "decided": false, "agree": false}, {"i": 107, "title": "Good", "text": "What can you say about a gift card? It works. lol", "label": "POSITIVE", "pred": "NEUTRAL", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 108, "title": "Flimsy and bent", "text": "I like the idea but the cards were cheap cardboard and were bent when put into the gift box. Not the typical plastic of other gift cards. Disappointed.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": "anticipation", "decided": false, "agree": false}, {"i": 109, "title": "Why not a gift card?", "text": "Disappointed that Amazon forgot to include the individual messages I wrote.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "POSITIVE", "emo": "anger", "decided": true, "agree": false}, {"i": 110, "title": "Buyer beware, card does not work!", "text": "Bought this card and it doesn't work at all. Card was denied at Krispy Kreme, so checked balance online, says invalid account number or the account is closed. Very frustrating,  and of course the 30 day window to return has passed. Waste of money!", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "trust", "decided": true, "agree": true}, {"i": 111, "title": "Card was no good", "text": "Called MasterCard customer service and was told I was sold an inactive card.  Found this to be the case on almost every card I ordered over a 2 month period.  I'm out over $1000 + activation fees, for cards that were never activated.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": false}, {"i": 112, "title": "DO NOT BUY - You can't use them anywhere!!!", "text": "Do not buy! I bought these in Januray and I've tried so many times but you cant use these anywhere in maine even thoe they were bought at a local supermarcket and no body will take them back!! They are a complete waste of money! I would say dont buy theme at all waste of my money and time! and horrible customer service", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": "anger", "decided": false, "agree": false}, {"i": 113, "title": "Nice way to gift", "text": "Nice way to gift to friends and family", "label": "NEUTRAL", "pred": "POSITIVE", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 114, "title": "Do we really get a 2% back???", "text": "It claims you get a percentage back but I've never seen it.  Not saying I didn't, just saying I can't see it.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 115, "title": "Giftcard was hacked", "text": "I went to spend this giftcard, as I got it for Christmas. It got declined, for the smallest amount. When I got home, I decided to go and check the balance online- only to find that money had been spent off of it in California. However I am not in California and never have been. Tried to resolve with Amazon, but was absolutely no help. Super dissatisfied and disappointed", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": "anger", "decided": false, "agree": false}, {"i": 116, "title": "ok", "text": "easy to load", "label": "POSITIVE", "pred": "NEUTRAL", "ok": false, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 117, "title": "Five Stars", "text": "Very nice packed in small box", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "NEGATIVE", "emo": null, "decided": true, "agree": false}, {"i": 118, "title": "Three Stars", "text": "Iund it very difficult to find the Gift Card Reload site.", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 119, "title": "Really lovable bear.", "text": "Really lovable bear. So happy I got this!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": true}, {"i": 120, "title": "Great gift", "text": "This product is perfect to buy for a gift, especially for someone who is hard to shop for. Definitely worth buying for gift giving.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 121, "title": "Arrived ripped. Packaging was fine so card was already damaged when selected for shipping.", "text": "I'm supposed to give this as a gift for Xmas??? Both the $100.00 card AND the $50.00 card were ripped!!", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 122, "title": "Poor customer servce", "text": "Recieved gift card but unable to redeem so lost $200 impossible to correct and get my refund!!!", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "sadness", "decided": true, "agree": true}, {"i": 123, "title": "To save and use when I want not to be automatically removed first when I order something", "text": "I added money to card to save but didn\u2019t realize it uses the money on card and not fiat choice of billing!", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": false}, {"i": 124, "title": "Five Stars", "text": "Always a popular gift", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 125, "title": "Gift card looked used", "text": "Received a card that looked like it had been dragged through the mud. It was dirty and the bar code had been scratched off.  Why would I want to gift this to anyone? Looks like I took it from the bottom of an old purse and gave as a a last minute thought.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": "anticipation", "decided": false, "agree": false}, {"i": 126, "title": "Easy gift", "text": "These are an easy gift however I will say that you can not use them online and if you want to use all of the money you have to know exactly how much is left on the card.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 127, "title": "Amazon Holiday Giftcard", "text": "On December 19, 2011 I ordered 2 boxes of Amazon Giftcards to be mailed to my son and daughter-in-law in  Texas, each box contains 2 $50 giftcards.  They live in a 3-story condo bldg, the ground floor is the parking garage.  The UPS delivery person dropped off the boxes at 6:30pm on December 21, 2011 @ their front door without ringing the door bell or knocking at the door. It was dark already, both boxes were stolen, the thief took the cards and threw the empty boxes @ a neighbor's front door. I can't believe when I heard my son told me that the outside of the box has large print which reads AMAZON GIFT CARDS!!  Who in the world will do such a dumb thing?<br /><br />After talking to an Amazon reprsentative, my credit card account was credited for $200.00.  The representative could not answer my question regarding whether the giftcard has any log in requirements before using it.  I like Amazon, but I will never purchase any Amazon Giftcards by mail again. I have never mailed any giftcards to anybody and I will never do that either!! Do it electronically!! Lesson learned.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 128, "title": "what", "text": "what ever", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 129, "title": "free money!", "text": "Loaded 100.00, got 110.00.. nice. I really like the fact that refunds are immediate.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "trust", "decided": true, "agree": true}, {"i": 130, "title": "Kind of Lousy", "text": "I meant to use it on a Nintendo Switch but got bored and upgraded the unholy hell out of my computer instead. Truth be told, its a lousy way to encourage people to spend over $100 on anything but what they want because what they want is inflated so ridiculously in price on a platform ran by heartless Ferengi who don't care. Thanks for nothing, Bezos.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEGATIVE", "emo": "trust", "decided": true, "agree": true}, {"i": 131, "title": "pretty good.", "text": "The Amazon.com gift balance card comes in handy,pretty good.", "label": "NEUTRAL", "pred": "POSITIVE", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 132, "title": "If to use again?", "text": "Grandchildren Christmas other side of the world.  First time trying.  Do not know how received or used.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 133, "title": "Three Stars", "text": "a", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 134, "title": "Didn't get $10 bonus for buying $50 worth of this and 3 other gift card products.", "text": "I purchased 3 gift cards worth $20 each of 4 different designs, and it was advertised that, in doing so, I would receive $10 credit on each of the sets of 3, meaning I should now show $40 credit for my purchase.  All I got credit for was the dollar amount of the entire purchase.", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "trust", "decided": true, "agree": false}, {"i": 135, "title": "Easy", "text": "Easy Christmas gift..was confused I was sent two..one was with the amount of her was empty. Was inconvenient...", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEUTRAL", "emo": "anger", "decided": false, "agree": false}, {"i": 136, "title": "Five Stars", "text": "Great gift idea for Christmas gifting!", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 137, "title": "easy gifted", "text": "Great card", "label": "NEUTRAL", "pred": "POSITIVE", "ok": false, "nrc": "POSITIVE", "emo": null, "decided": true, "agree": true}, {"i": 138, "title": "fun", "text": "such a fun way to give a gift card", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 139, "title": "Love this", "text": "Good to use", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "joy", "decided": true, "agree": true}, {"i": 140, "title": "Gift card", "text": "I like this but if you go to the theater you can get extra deals . I.e. $5.00 card with purchase of a $25 card.", "label": "NEUTRAL", "pred": "POSITIVE", "ok": false, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 141, "title": "Just in time..", "text": "Well done<br />Nice packaging", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "NEUTRAL", "emo": "anticipation", "decided": false, "agree": false}, {"i": 142, "title": "Service", "text": "My card was all damaged and the outside envelope came later then said", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 143, "title": "Boring", "text": "Meh!", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEGATIVE", "emo": null, "decided": true, "agree": true}, {"i": 144, "title": "card", "text": "well received card in a a timely manner but when card was used at burger king had difficulty at register would not give burger king gift card again", "label": "NEGATIVE", "pred": "NEUTRAL", "ok": false, "nrc": "POSITIVE", "emo": "anger", "decided": true, "agree": false}, {"i": 145, "title": "No", "text": "I didn\u2019t purchase this, I was hacked", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 146, "title": "Didn\u2019t get card with box", "text": "I didn\u2019t get a card with the box", "label": "NEUTRAL", "pred": "NEGATIVE", "ok": false, "nrc": "NEUTRAL", "emo": null, "decided": false, "agree": false}, {"i": 147, "title": "but was hoping it would have come in better shape. The idea is cool", "text": "gift card was straight forward but the tin was &#34;all bus up&#34; or in other words, dented and teaked.  I bent and pushed out the flaws to make it semi-presentable as a gift, but was hoping it would have come in better shape.  The idea is cool, but I should have known that the item is at the mercy of the mail delivery system.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 148, "title": "Reload to use up gift card or debit card balances", "text": "I like to use the reload option if I have a debit card or gift card that I have a small balance on that is not enough to buy anything.  I just put the remaining balance on here to 0 out the card.", "label": "POSITIVE", "pred": "POSITIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": true}, {"i": 149, "title": "A gift from ?", "text": "We sent this gift card directly from Amazon to our brother-in-law who lives in another State.  The card was delivered on time and the gift box was very nice.  The problem was that the gift did not indicate who the card was from.  I had to ask my sister if my brother-in-law got his gift card from Amazon because they couldn't tell who the gift was from.", "label": "NEUTRAL", "pred": "NEUTRAL", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}, {"i": 150, "title": "It's wasting their time and makes them disappointed!", "text": "processing time too slow... After I paying the &100 gift card, the website says, &#34;Your Gift Card balance should be updated in less than 5 minutes. An email confirmation has also been sent to you.&#34;<br /><br />I placed the order on 17:15, now is 18:09. Its almost ONE HOUR passed, however the balance hasn't been applied and the status of the order is still shown as &#34;Processing&#34; !!!<br /><br />Please Don't promise the process time will be &#34;less than 5 mins&#34;... because some customers expect to use the balance right after the purchases of gift cards...  your promise makes some your customers waiting in front of their laptops and keeping refreshing the balance webpage for hours! It's wasting their time and makes them disappointed!", "label": "NEGATIVE", "pred": "NEGATIVE", "ok": true, "nrc": "POSITIVE", "emo": "anticipation", "decided": true, "agree": false}];
+const CLASSES=["POSITIVE", "NEUTRAL", "NEGATIVE"];
+const CM={"POSITIVE": {"POSITIVE": 44, "NEUTRAL": 6, "NEGATIVE": 0}, "NEUTRAL": {"POSITIVE": 9, "NEUTRAL": 21, "NEGATIVE": 20}, "NEGATIVE": {"POSITIVE": 1, "NEUTRAL": 3, "NEGATIVE": 46}};
+const LN={"n": 150, "llm_acc": 74.0, "macro_f1": 72.1, "per_class": {"POSITIVE": {"count": 50, "precision": 81.5, "recall": 88.0, "f1": 84.6}, "NEUTRAL": {"count": 50, "precision": 70.0, "recall": 42.0, "f1": 52.5}, "NEGATIVE": {"count": 50, "precision": 69.7, "recall": 92.0, "f1": 79.3}}, "nrc_acc": 46.4, "nrc_decided": 110, "nrc_correct": 51, "agree_all": 69, "agree_pct_all": 46.0, "agree_decided": 60, "agree_pct_dec": 54.5, "neutral": 40, "pred_dist": {"NEGATIVE": 66, "POSITIVE": 54, "NEUTRAL": 30}, "sent_dist": {"POSITIVE": 92, "NEUTRAL": 40, "NEGATIVE": 18}, "emo_dist": {"anticipation": 75, "none": 33, "anger": 11, "joy": 14, "disgust": 3, "trust": 7, "sadness": 6, "fear": 1}};
+const EMOS=["anger", "anticipation", "disgust", "fear", "joy", "sadness", "surprise", "trust"];
+
+// ---------- 3x3 confusion matrix ----------
+function initCM(){
+  const head=CLASSES.map(c=>'<td class="lbl" style="font-weight:600">'+c+'</td>').join('');
+  let h='<tr><td></td>'+head+'</tr>';
+  let maxc=0;
+  CLASSES.forEach(a=>CLASSES.forEach(p=>{ if(CM[a][p]>maxc)maxc=CM[a][p]; }));
+  CLASSES.forEach(a=>{
+    const rowtot=CLASSES.reduce((s,p)=>s+CM[a][p],0)||1;
+    h+='<tr><td class="lbl" style="font-weight:600;white-space:nowrap">'+a+'</td>';
+    CLASSES.forEach(p=>{
+      const v=CM[a][p], ok=(a===p), intensity=(v/maxc);
+      const a1 = ok ? `rgba(26,143,92,${0.12+0.5*intensity})` : `rgba(192,67,58,${0.08+0.5*intensity})`;
+      h+='<td class="'+(ok?'cok':'cbad')+'" style="background:'+a1+';vertical-align:top">'
+        +'<div class="big">'+v+'</div><div class="lbl">'+Math.round(100*v/rowtot)+'% of row</div></td>';
+    });
+    h+='</tr>';
+  });
+  document.getElementById('cm').innerHTML='<tbody>'+h+'</tbody>';
+}
+
+// ---------- emotion bars ----------
+function initEmoBars(){
+  let h='';
+  EMOS.forEach(e=>{
+    const cnt=LN.emo_dist[e]||0, w=Math.max(1,Math.round(100*cnt/LN.n));
+    h+='<div class="barwrap"><div class="barrow"><span>'+e+'</span><span>'+cnt+'</span></div>'
+       +'<div class="bar"><span class="bok" style="width:'+w+'%"></span></div></div>';
+  });
+  const none=LN.emo_dist['none']||0;
+  h+='<div class="barwrap"><div class="barrow"><span>none (no lexicon hits)</span><span>'+none+'</span></div>'
+     +'<div class="bar"><span class="bok" style="width:'+Math.max(1,Math.round(100*none/LN.n))+'%"></span></div></div>';
+  document.getElementById('emobars').innerHTML=h;
+}
+
+// ---------- correct vs predicted, by class ----------
+const WRONGCLS={POSITIVE:'badseg-b',NEUTRAL:'badseg-m',NEGATIVE:'badseg-r'};
+const SHORT={POSITIVE:'POS',NEUTRAL:'NEU',NEGATIVE:'NEG'};
+function initClassView(){
+  const box=document.getElementById('classview'); let h='';
+  CLASSES.forEach(c=>{
+    const row=CLASSES.reduce((s,p)=>s+CM[c][p],0)||1;
+    const cnt=LN.per_class[c]; const ok=CM[c][c];
+    const order=[c].concat(CLASSES.filter(p=>p!==c));
+    let segs='';
+    order.forEach(p=>{
+      const v=CM[c][p]; if(v<=0)return;
+      const cls=(p===c)?'okseg':WRONGCLS[p];
+      const mark=(p===c)?' <span class="tick">&#10003;</span>':'';
+      segs+='<div class="s '+cls+'" style="flex-grow:'+v+'">'+v+' '+SHORT[p]+mark+'</div>';
+    });
+    // descriptive sentence
+    const tot=row; const pct=Math.round(100*ok/tot);
+    let who=CLASSES.filter(p=>p!==c&&CM[c][p]>0)
+                .map(p=>'<b class="x">'+CM[c][p]+' called '+SHORT[p]+'</b>').join(', ');
+    if(CLASSES.filter(p=>p!==c&&CM[c][p]>0).length===0) who='<b class="g">all of them correctly</b>';
+    else if(CLASSES.filter(p=>p!==c&&CM[c][p]>0).length===1) who=who;
+    else who=who.replace(/, ([^,]*)$/,' and $1');
+    h+='<div class="cv-row">'
+      +'<div class="cv-head"><b>'+c+'</b><span class="cv-meta">'+tot+' true reviews &middot; '
+        +pct+'% correct &middot; F1 '+cnt.f1+'% &middot; recall '+cnt.recall+'%</span></div>'
+      +'<div class="seg">'+segs+'</div>'
+      +'<div class="cv-desc">Of '+tot+' true <b>'+c.toLowerCase()+'</b> reviews the model called '
+        +'<b class="g">'+ok+' right ('+pct+'%)</b> &mdash; the rest: '+who+'.</div>'
+      +'</div>';
+  });
+  box.innerHTML=h;
+}
+
+// ---------- text panels ----------
+function initText(){
+  let pc='';
+  CLASSES.forEach(c=>{
+    const p=LN.per_class[c];
+    pc+='<span style="display:inline-block;margin-right:14px"><b>'+c+'</b> (n='+p.count+') &mdash; exact '+
+        p.recall+'% &middot; prec '+p.precision+'% &middot; F1 '+p.f1+'%</span>';
+  });
+  document.getElementById('perclass').innerHTML=pc;
+
+  const dec=LN.nrc_decided, aggD=LN.agree_decided;
+  document.getElementById('agreeline').innerHTML =
+    'All reviews: LLM and NRC agree on <b>'+LN.agree_all+'/'+LN.n+' ('+LN.agree_pct_all+'%)</b> when a strict '+
+    'label match (incl. both-neutral) is required. Looking only at the <b>'+dec+'</b> reviews where NRC took a side, '+
+    'they agree on '+aggD+' ('+LN.agree_pct_dec+'%). NRC left <b>'+LN.neutral+'</b> undecided (tie or no lexicon hits). '+
+    'NRC is permissive-positive ('+LN.sent_dist.POSITIVE+' pos vs '+LN.sent_dist.NEGATIVE+' neg on a rating-balanced batch) '+
+    'because neutral product words (card, gift, order, work) sit in its positive list.';
+
+  document.getElementById('gtruth').innerHTML =
+    'LLM matches the rating break on <b>'+LN.llm_acc+'%</b> of '+LN.n+' (macro-F1 '+LN.macro_f1+'%) &mdash; NEUTRAL (rating 3) '+
+    'is the hardest to hit, as expected, since a 3-star review is usually mixed. NRC matches on '+LN.nrc_acc+'% of its '+
+    LN.nrc_decided+' decided reviews.';
+
+  document.getElementById('nrcgtdetail').innerHTML =
+    'NRC got it right on <b>'+LN.nrc_acc+'%</b> of its decided reviews (vs '+LN.llm_acc+'% for the LLM) &mdash; the raw '+
+    'word-count method is markedly weaker at recovering sentiment here. Its primary-emotion read is dominated by '+
+    '<b>anticipation</b> ('+(LN.emo_dist.anticipation||0)+'), which tracks the gift/order/shipping vocabulary rather '+
+    'than true sentiment.';
+}
+
+// ---------- NRC vs ground truth bars ----------
+function initNrcGt(){
+  let tp2=0,tn2=0,fp2=0,fn2=0;
+  DATA.forEach(r=>{
+    if(!r.decided)return;
+    if(r.nrc===r.label){ r.nrc==='POSITIVE'?tp2++:tn2++; } else { r.nrc==='POSITIVE'?fp2++:fn2++; }
+  });
+  const rows=[['NRC matched rating',tp2+tn2],['NRC did not match',fp2+fn2]];
+  const tot=rows[0][1]+rows[1][1]||1;
+  let h='';
+  rows.forEach(r=>{
+    const w=Math.max(1,Math.round(100*r[1]/tot));
+    h+='<div class="barwrap"><div class="barrow"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>'
+       +'<div class="bar"><span class="'+(r[0].indexOf('matched')===0?'bok':'')+'" style="width:'+w+'%"></span></div></div>';
+  });
+  document.getElementById('nrcgtr').innerHTML=h;
+}
+
+// ---------- table ----------
+let filt='all',q='',emo='';
+function matches(r){
+  if(filt==='ok'&&!r.ok)return false;
+  if(filt==='err'&&r.ok)return false;
+  if(filt==='tPOS'&&r.label!=='POSITIVE')return false;
+  if(filt==='tNEU'&&r.label!=='NEUTRAL')return false;
+  if(filt==='tNEG'&&r.label!=='NEGATIVE')return false;
+  if(filt==='agr'&&!r.agree)return false;
+  if(filt==='dis'&&!(r.decided&&!r.agree))return false;   // NRC decided AND disagrees
+  if(filt==='neu'&&r.decided)return false;
+  if(emo && r.emo!==emo)return false;
+  if(q){ const hay=(r.title+' '+r.text).toLowerCase(); if(!hay.includes(q))return false; }
+  return true;
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+const pillc={POSITIVE:'p-pos',NEUTRAL:'p-neu',NEGATIVE:'p-neg'};
+function render(rows){
+  const tb=document.getElementById('tbody'); tb.innerHTML='';
+  rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.className = r.ok?'ok':'bad'; if(!r.decided)tr.className+=' neurow';
+    const text=r.text.length>140?r.text.slice(0,140)+'…':(r.text||'(no body text)');
+    const nrcCell=r.decided
+      ?'<span class="pill '+pillc[r.nrc]+'">'+r.nrc+'</span>'
+      :'<span class="pill nu-pill">neutral</span>';
+    const met=r.decided
+      ?(r.agree?'<span class="pill ag-pill">agree</span>':'<span class="pill di-pill">differ</span>')
+      :'<span class="pill nu-pill">—</span>';
+    const emoDisp=r.emo?r.emo:'<span style="color:var(--mut)">—</span>';
+    tr.innerHTML='<td>'+r.i+'</td>'
+      +'<td class="title">'+esc(r.title||'(no title)')+'</td>'
+      +'<td class="text">'+esc(text)+'</td>'
+      +'<td><span class="pill '+pillc[r.label]+'">'+r.label+'</span></td>'
+      +'<td><span class="pill '+pillc[r.pred]+'">'+r.pred+'</span></td>'
+      +'<td>'+nrcCell+'</td>'
+      +'<td>'+emoDisp+'</td>'
+      +'<td><span class="pill '+(r.ok?'ok-pill':'bad-pill')+'">'+(r.ok?'Correct':'WRONG')+'</span></td>'
+      +'<td>'+met+'</td>';
+    tb.appendChild(tr);
+  });
+  document.getElementById('shown').textContent=rows.length;
+}
+function applyFilter(){ render(DATA.filter(matches)); }
+
+function initFilters(){
+  const c={all:DATA.length,ok:0,err:0,tPOS:0,tNEU:0,tNEG:0,agr:0,dis:0,neu:0};
+  DATA.forEach(r=>{
+    if(r.ok)c.ok++; else c.err++;
+    c['t'+r.label]++;
+    if(r.decided&&r.agree)c.agr++;
+    if(r.decided&&!r.agree)c.dis++;
+    if(!r.decided)c.neu++;
+  });
+  const defs=[['all','All',c.all],['ok','Correct',c.ok],['err','Wrong',c.err],
+    ['tPOS','POSITIVE',c.tPOS],['tNEU','NEUTRAL',c.tNEU],['tNEG','NEGATIVE',c.tNEG],
+    ['dis','Differ',c.dis],['agr','Agree',c.agr],['neu','NRC neutral',c.neu]];
+  const box=document.getElementById('filters');
+  defs.forEach(d=>{
+    const b=document.createElement('button');
+    b.innerHTML=d[1]+' <span class="cnt">'+d[2]+'</span>';
+    b.className=d[0]==='all'?'active':'';
+    b.onclick=()=>{filt=d[0];box.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');applyFilter();};
+    box.appendChild(b);
+  });
+  document.getElementById('total').textContent=DATA.length;
+  document.getElementById('shown').textContent=DATA.length;
+  const sel=document.getElementById('emofilter');
+  EMOS.forEach(e=>{const o=document.createElement('option');o.value=e;o.textContent=e;sel.appendChild(o);});
+  sel.addEventListener('change',()=>{emo=sel.value||'';applyFilter();});
+  document.getElementById('search').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();applyFilter();});
+}
+
+initCM(); initClassView(); initEmoBars(); initText(); initNrcGt(); initFilters(); render(DATA);
+</script>
+</body>
+</html>

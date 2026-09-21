@@ -1,0 +1,311 @@
+Classifying ...
+
+[1/300] true=POSITIVE pred=POSITIVE | its a gift card
+[2/300] true=POSITIVE pred=POSITIVE | Great that I could send straight to my g
+[3/300] true=NEGATIVE pred=NEGATIVE | Cheap card. Nice tin
+[4/300] true=POSITIVE pred=POSITIVE | Five Stars
+[5/300] true=NEGATIVE pred=NEGATIVE | Didn’t receive full amount
+[6/300] true=NEGATIVE pred=NEGATIVE | Fraud purchase
+[7/300] true=NEGATIVE pred=NEGATIVE | Carrier that does not care
+[8/300] true=POSITIVE pred=POSITIVE | Good card
+[9/300] true=NEGATIVE pred=POSITIVE | One Star
+[10/300] true=POSITIVE pred=POSITIVE | Convenient
+[11/300] true=NEGATIVE pred=NEGATIVE | FRAUD
+[12/300] true=POSITIVE pred=POSITIVE | Great product !
+[13/300] true=NEGATIVE pred=NEGATIVE | Looked used!
+[14/300] true=NEGATIVE pred=NEGATIVE | Glitch
+[15/300] true=POSITIVE pred=POSITIVE | Simple to do. I do it all the time.
+[16/300] true=POSITIVE pred=POSITIVE | Four Stars
+[17/300] true=POSITIVE pred=POSITIVE | Five Stars
+[18/300] true=POSITIVE pred=POSITIVE | Great gift
+[19/300] true=POSITIVE pred=POSITIVE | Great Gift
+[20/300] true=POSITIVE pred=POSITIVE | Perfect card
+[21/300] true=NEGATIVE pred=NEGATIVE | Received late and ZERO balance on card
+[22/300] true=POSITIVE pred=POSITIVE | Very cute card
+[23/300] true=POSITIVE pred=POSITIVE | Five Stars
+[24/300] true=NEGATIVE pred=NEGATIVE | Envelopes torn
+[25/300] true=NEGATIVE pred=NEGATIVE | not good
+[26/300] true=NEGATIVE pred=POSITIVE | Kindle
+[27/300] true=NEGATIVE pred=NEGATIVE | no $10 back
+[28/300] true=POSITIVE pred=POSITIVE | Love this card.
+[29/300] true=NEGATIVE pred=NEGATIVE | Finding the amount of the cards
+[30/300] true=NEGATIVE pred=NEGATIVE | Doubleucasino
+[31/300] true=POSITIVE pred=POSITIVE | gift card
+[32/300] true=POSITIVE pred=NEGATIVE | Gift Card
+[33/300] true=NEGATIVE pred=NEGATIVE | Worst thing ever
+[34/300] true=NEGATIVE pred=NEGATIVE | Love them just 0 balance
+[35/300] true=NEGATIVE pred=NEGATIVE | Hacked
+[36/300] true=NEGATIVE pred=NEGATIVE | Check your payment preferences before ad
+[37/300] true=POSITIVE pred=POSITIVE | Great gift!
+[38/300] true=POSITIVE pred=POSITIVE | Five Stars
+[39/300] true=NEGATIVE pred=NEGATIVE | Not what they said
+[40/300] true=POSITIVE pred=POSITIVE | Amazon.com Gift Card in a Black Gift Box
+[41/300] true=POSITIVE pred=POSITIVE | free money!
+[42/300] true=NEGATIVE pred=NEGATIVE | The person who received this gift card i
+[43/300] true=NEGATIVE pred=NEGATIVE | DO NOT PURCHASE!!!
+[44/300] true=NEGATIVE pred=NEGATIVE | $100 gift card box EMPTY!
+[45/300] true=POSITIVE pred=POSITIVE | Perfect Gift
+[46/300] true=NEGATIVE pred=NEGATIVE | No
+[47/300] true=POSITIVE pred=POSITIVE | Reload without a Gun License
+[48/300] true=NEGATIVE pred=NEGATIVE | Ripped envelope
+[49/300] true=POSITIVE pred=POSITIVE | A breeze to use.
+[50/300] true=NEGATIVE pred=NEGATIVE | Getting a better grinder
+[51/300] true=POSITIVE pred=POSITIVE | Putting $100 reload on my gift card
+[52/300] true=NEGATIVE pred=NEGATIVE | Don't waste your money!
+[53/300] true=POSITIVE pred=POSITIVE | Gift on Christmas Morning
+[54/300] true=NEGATIVE pred=NEGATIVE | Went to use it and it would not work :(
+[55/300] true=NEGATIVE pred=NEGATIVE | One Star
+[56/300] true=NEGATIVE pred=NEGATIVE | Loser's weepers
+[57/300] true=NEGATIVE pred=NEGATIVE | I only received 1 of my 2 10 dollar gift
+[58/300] true=POSITIVE pred=POSITIVE | Easy peasy
+[59/300] true=POSITIVE pred=POSITIVE | So cute
+[60/300] true=NEGATIVE pred=NEGATIVE | not accepted
+[61/300] true=POSITIVE pred=POSITIVE | Great presentation box
+[62/300] true=NEGATIVE pred=NEGATIVE | One Star
+[63/300] true=POSITIVE pred=POSITIVE | gift card
+[64/300] true=POSITIVE pred=POSITIVE | Convenient
+[65/300] true=NEGATIVE pred=NEGATIVE | What kind of nonsense is this removing t
+[66/300] true=POSITIVE pred=POSITIVE | Good
+[67/300] true=NEGATIVE pred=NEGATIVE | Didn't show up on my account
+[68/300] true=NEGATIVE pred=NEGATIVE | Can't access some money on my car becaus
+[69/300] true=POSITIVE pred=POSITIVE | Great!! Simply amazing way to treat some
+[70/300] true=NEGATIVE pred=NEGATIVE | One Star
+[71/300] true=POSITIVE pred=POSITIVE | Always a great gift.
+[72/300] true=POSITIVE pred=POSITIVE | Really lovable bear.
+[73/300] true=NEGATIVE pred=NEGATIVE | Two Stars
+[74/300] true=POSITIVE pred=POSITIVE | Product arrived on time and was exactly 
+[75/300] true=POSITIVE pred=POSITIVE | Nice!
+[76/300] true=POSITIVE pred=POSITIVE | Really cute for graduation parties
+[77/300] true=NEGATIVE pred=NEGATIVE | $50 doesn’t equal $0
+[78/300] true=POSITIVE pred=POSITIVE | Millennial gifts from a Grandmother!!
+[79/300] true=NEGATIVE pred=NEGATIVE | Who’s on First
+[80/300] true=NEGATIVE pred=NEGATIVE | I can't use
+[81/300] true=NEGATIVE pred=NEGATIVE | This gift card is not working
+[82/300] true=NEGATIVE pred=NEGATIVE | Two of my gift cards are missing!
+[83/300] true=NEGATIVE pred=NEGATIVE | They weren’t activated!!
+[84/300] true=NEGATIVE pred=NEGATIVE | Card came bent in half.  Unpresentable f
+[85/300] true=POSITIVE pred=POSITIVE | Should have bought  cards way sooner
+[86/300] true=NEGATIVE pred=NEGATIVE | Check the box
+[87/300] true=POSITIVE pred=POSITIVE | Good
+[88/300] true=NEGATIVE pred=NEGATIVE | ????
+[89/300] true=NEGATIVE pred=NEGATIVE | Gift card was torn
+[90/300] true=POSITIVE pred=POSITIVE | Great gift
+[91/300] true=NEGATIVE pred=NEGATIVE | Wrong item in package!
+[92/300] true=POSITIVE pred=POSITIVE | Easy
+[93/300] true=NEGATIVE pred=NEGATIVE | Did not work 10$
+[94/300] true=NEGATIVE pred=NEGATIVE | Gift Card
+[95/300] true=POSITIVE pred=NEGATIVE | Could be more visible
+[96/300] true=NEGATIVE pred=NEGATIVE | No longer able to reload gift card balan
+[97/300] true=POSITIVE pred=POSITIVE | Holiday Cheer
+[98/300] true=NEGATIVE pred=NEGATIVE | I don't like
+[99/300] true=POSITIVE pred=POSITIVE | Festive Gift Card Container for Holiday 
+[100/300] true=NEGATIVE pred=NEGATIVE | Don’t buy
+[101/300] true=NEGATIVE pred=NEGATIVE | Delivered
+[102/300] true=NEGATIVE pred=NEGATIVE | I Paid for a slip of the finger
+[103/300] true=POSITIVE pred=POSITIVE | Meldy
+[104/300] true=NEGATIVE pred=NEGATIVE | Support
+[105/300] true=NEGATIVE pred=NEGATIVE | Ugh
+[106/300] true=POSITIVE pred=POSITIVE | If you can get these on sale, don’t ever
+[107/300] true=POSITIVE pred=POSITIVE | Giftable card for nice department store
+[108/300] true=NEGATIVE pred=NEGATIVE | Only works with SPECIFIC Straight Talk P
+[109/300] true=POSITIVE pred=POSITIVE | Liked it
+[110/300] true=POSITIVE pred=POSITIVE | Perfect Gift
+[111/300] true=NEGATIVE pred=NEGATIVE | This is a rip off and no answers.
+[112/300] true=POSITIVE pred=POSITIVE | Five Stars
+[113/300] true=NEGATIVE pred=NEGATIVE | False Advertising
+[114/300] true=POSITIVE pred=POSITIVE | Five Stars
+[115/300] true=NEGATIVE pred=NEGATIVE | One Star
+[116/300] true=POSITIVE pred=POSITIVE | Five Stars
+[117/300] true=POSITIVE pred=POSITIVE | Great Gift!
+[118/300] true=NEGATIVE pred=POSITIVE | Getting  a bargin
+[119/300] true=POSITIVE pred=POSITIVE | Amazon is perfect gift
+[120/300] true=POSITIVE pred=POSITIVE | Quick and Easy
+[121/300] true=NEGATIVE pred=NEGATIVE | Received item damaged, cannot use.
+[122/300] true=NEGATIVE pred=NEGATIVE | Stolen gift card
+[123/300] true=NEGATIVE pred=NEGATIVE | Need information
+[124/300] true=NEGATIVE pred=NEGATIVE | Amazon Gift Cards
+[125/300] true=POSITIVE pred=POSITIVE | Easy gift idea!
+[126/300] true=NEGATIVE pred=NEGATIVE | Worked great on the first one I received
+[127/300] true=POSITIVE pred=POSITIVE | Awesome!!
+[128/300] true=POSITIVE pred=POSITIVE | Just in time..
+[129/300] true=NEGATIVE pred=NEGATIVE | One Star
+[130/300] true=POSITIVE pred=POSITIVE | Always a good choice.
+[131/300] true=POSITIVE pred=POSITIVE | Five Stars
+[132/300] true=POSITIVE pred=POSITIVE | Five Stars
+[133/300] true=NEGATIVE pred=NEGATIVE | Money getter
+[134/300] true=POSITIVE pred=POSITIVE | Five Stars
+[135/300] true=POSITIVE pred=POSITIVE | Five Stars
+[136/300] true=POSITIVE pred=POSITIVE | Happy Kid
+[137/300] true=POSITIVE pred=POSITIVE | Love these!
+[138/300] true=NEGATIVE pred=NEGATIVE | One Star
+[139/300] true=POSITIVE pred=POSITIVE | Worked as well as cash for me
+[140/300] true=POSITIVE pred=POSITIVE | cool
+[141/300] true=POSITIVE pred=POSITIVE | Can pick their own gift then
+[142/300] true=POSITIVE pred=POSITIVE | GREAT DEAL, AWSOME EXCELLENT PRODUCT
+[143/300] true=NEGATIVE pred=NEGATIVE | Too pricey
+[144/300] true=NEGATIVE pred=NEGATIVE | Arrived late and had a zero balance.
+[145/300] true=NEGATIVE pred=NEGATIVE | What?
+[146/300] true=NEGATIVE pred=NEGATIVE | Stuck
+[147/300] true=POSITIVE pred=POSITIVE | Great Gift card
+[148/300] true=NEGATIVE pred=NEGATIVE | Do not use where a "hold" will likely oc
+[149/300] true=POSITIVE pred=POSITIVE | Easter
+[150/300] true=POSITIVE pred=POSITIVE | Five Stars
+[151/300] true=NEGATIVE pred=NEGATIVE | Can’t redeem!
+[152/300] true=NEGATIVE pred=NEGATIVE | Avoid
+[153/300] true=NEGATIVE pred=NEGATIVE | Delivered a damaged gift box and not eli
+[154/300] true=POSITIVE pred=POSITIVE | Beautiful box
+[155/300] true=NEGATIVE pred=NEGATIVE | No funds on MasterCard delivered dec 24 
+[156/300] true=POSITIVE pred=POSITIVE | Bonus $5 is great when you can find this
+[157/300] true=NEGATIVE pred=NEGATIVE | Scam
+[158/300] true=NEGATIVE pred=NEGATIVE | Nothing but problems/fraud on card
+[159/300] true=POSITIVE pred=POSITIVE | No Problems!
+[160/300] true=NEGATIVE pred=NEGATIVE | Deactivated??
+[161/300] true=POSITIVE pred=POSITIVE | Five Stars
+[162/300] true=POSITIVE pred=POSITIVE | Arrives Quickly
+[163/300] true=NEGATIVE pred=NEGATIVE | HORRIBLE SHIPPING!
+[164/300] true=POSITIVE pred=POSITIVE | RE: Great gift idea
+[165/300] true=NEGATIVE pred=NEGATIVE | BUYER BEWARE!
+[166/300] true=POSITIVE pred=POSITIVE | Five Stars
+[167/300] true=POSITIVE pred=POSITIVE | Five Stars
+[168/300] true=POSITIVE pred=POSITIVE | Giftable
+[169/300] true=POSITIVE pred=POSITIVE | Five Stars
+[170/300] true=POSITIVE pred=POSITIVE | Nothing
+[171/300] true=NEGATIVE pred=NEGATIVE | Rip Off
+[172/300] true=POSITIVE pred=POSITIVE | Fast shipping!
+[173/300] true=POSITIVE pred=POSITIVE | Reload
+[174/300] true=NEGATIVE pred=NEGATIVE | Constantly cancles my order for no reaso
+[175/300] true=NEGATIVE pred=NEGATIVE | These were fake gift  cards.. Do not pur
+[176/300] true=NEGATIVE pred=NEGATIVE | Confusing changes
+[177/300] true=NEGATIVE pred=NEGATIVE | Unable to use
+[178/300] true=POSITIVE pred=POSITIVE | Five Stars
+[179/300] true=POSITIVE pred=POSITIVE | Five Stars
+[180/300] true=NEGATIVE pred=NEGATIVE | Uber inactivated my cards
+[181/300] true=NEGATIVE pred=NEGATIVE | Doesn't Work Under Any Circumstances
+[182/300] true=NEGATIVE pred=NEGATIVE | Fraudulant.
+[183/300] true=POSITIVE pred=POSITIVE | Five Stars
+[184/300] true=NEGATIVE pred=NEGATIVE | CARD WONT ACTIVATE!
+[185/300] true=NEGATIVE pred=NEGATIVE | This was sent to me by mistake  GIFT CER
+[186/300] true=NEGATIVE pred=NEGATIVE | Gift card can’t be refunded to original 
+[187/300] true=POSITIVE pred=POSITIVE | Five Stars
+[188/300] true=POSITIVE pred=POSITIVE | Five Stars
+[189/300] true=POSITIVE pred=POSITIVE | birthday card
+[190/300] true=NEGATIVE pred=NEGATIVE | Disappointment
+[191/300] true=NEGATIVE pred=NEGATIVE | Very aggravated I just received the phon
+[192/300] true=NEGATIVE pred=POSITIVE | Ease of ordering
+[193/300] true=NEGATIVE pred=NEGATIVE | Fast but incredibly lazy service
+[194/300] true=POSITIVE pred=POSITIVE | awesome
+[195/300] true=NEGATIVE pred=NEGATIVE | No balance on the gift card
+[196/300] true=POSITIVE pred=POSITIVE | What a gift card!
+[197/300] true=POSITIVE pred=POSITIVE | buen servicio
+[198/300] true=NEGATIVE pred=NEGATIVE | NO CLAIM CODE AT THE BACK...DID I LOOSE 
+[199/300] true=POSITIVE pred=POSITIVE | Four Stars
+[200/300] true=POSITIVE pred=POSITIVE | Five Stars
+[201/300] true=POSITIVE pred=NEGATIVE | Nice presentation box
+[202/300] true=POSITIVE pred=POSITIVE | Love this
+[203/300] true=NEGATIVE pred=NEGATIVE | Cheap
+[204/300] true=NEGATIVE pred=NEGATIVE | Do not buy
+[205/300] true=NEGATIVE pred=NEGATIVE | Old way was better
+[206/300] true=NEGATIVE pred=NEGATIVE | BUYER BEWARE!! DO NOT BUY!!!
+[207/300] true=POSITIVE pred=POSITIVE | Beautiful GC Holders
+[208/300] true=POSITIVE pred=POSITIVE | Reload to use up gift card or debit card
+[209/300] true=NEGATIVE pred=NEGATIVE | The card was supposed to include a note 
+[210/300] true=POSITIVE pred=POSITIVE | Nice giftable tin package.
+[211/300] true=POSITIVE pred=POSITIVE | You get what you expect
+[212/300] true=NEGATIVE pred=NEGATIVE | Joke of the YEAR
+[213/300] true=POSITIVE pred=POSITIVE | Perfect gift
+[214/300] true=NEGATIVE pred=NEGATIVE | One card was already used
+[215/300] true=POSITIVE pred=POSITIVE | Good Gift
+[216/300] true=NEGATIVE pred=NEGATIVE | Amazon is doing thing without your permi
+[217/300] true=NEGATIVE pred=NEGATIVE | Where is 10%?
+[218/300] true=NEGATIVE pred=NEGATIVE | My son received the card from the order 
+[219/300] true=POSITIVE pred=POSITIVE | Convenient and safe
+[220/300] true=POSITIVE pred=POSITIVE | made grand child happy
+[221/300] true=POSITIVE pred=POSITIVE | It was a great Christmas gift!
+[222/300] true=POSITIVE pred=POSITIVE | i provided baby sitting service and they
+[223/300] true=POSITIVE pred=POSITIVE | Recipients Liked It
+[224/300] true=NEGATIVE pred=NEGATIVE | FRAUD
+[225/300] true=NEGATIVE pred=NEGATIVE | Scam
+[226/300] true=POSITIVE pred=POSITIVE | ok
+[227/300] true=POSITIVE pred=POSITIVE | Perfect
+[228/300] true=NEGATIVE pred=POSITIVE | Wonderful ❣️
+[229/300] true=POSITIVE pred=POSITIVE | Money
+[230/300] true=NEGATIVE pred=NEGATIVE | Money taken from charge acct. instead of
+[231/300] true=POSITIVE pred=POSITIVE | Five Stars
+[232/300] true=POSITIVE pred=POSITIVE | Five Stars
+[233/300] true=POSITIVE pred=POSITIVE | Five Stars
+[234/300] true=NEGATIVE pred=NEGATIVE | They lock gift cards after not using the
+[235/300] true=POSITIVE pred=POSITIVE | Great!!! Easy to get .. Easy to use!!
+[236/300] true=NEGATIVE pred=NEGATIVE | Visa Gift Card will not work!!
+[237/300] true=POSITIVE pred=POSITIVE | They are gifts
+[238/300] true=NEGATIVE pred=NEGATIVE | Amazon is extremely exra !
+[239/300] true=NEGATIVE pred=NEGATIVE | Card was damaged
+[240/300] true=NEGATIVE pred=NEGATIVE | Takes forever.
+[241/300] true=NEGATIVE pred=NEGATIVE | Instructions not clear.
+[242/300] true=POSITIVE pred=POSITIVE | Easy and Fast E-Delivery
+[243/300] true=POSITIVE pred=POSITIVE | It is so easy, and a nice gift
+[244/300] true=POSITIVE pred=POSITIVE | Super useful!
+[245/300] true=POSITIVE pred=POSITIVE | Five Stars
+[246/300] true=NEGATIVE pred=NEGATIVE | Scam!! Run away
+[247/300] true=POSITIVE pred=POSITIVE | The real deal
+[248/300] true=POSITIVE pred=POSITIVE | Great for Christmas gifts
+[249/300] true=NEGATIVE pred=NEGATIVE | Pretty lousy value
+[250/300] true=NEGATIVE pred=NEGATIVE | Go to walmart and buy one
+[251/300] true=NEGATIVE pred=NEGATIVE | Cards send without activation
+[252/300] true=POSITIVE pred=POSITIVE | 😁
+[253/300] true=POSITIVE pred=POSITIVE | Grandkids gifts
+[254/300] true=POSITIVE pred=POSITIVE | Gift
+[255/300] true=POSITIVE pred=POSITIVE | Item as described
+[256/300] true=POSITIVE pred=POSITIVE | Awesome
+[257/300] true=NEGATIVE pred=NEGATIVE | One size  socks, probably made for Bigfo
+[258/300] true=POSITIVE pred=POSITIVE | Beautiful
+[259/300] true=NEGATIVE pred=NEGATIVE | One Star
+[260/300] true=POSITIVE pred=POSITIVE | Awesome little box
+[261/300] true=NEGATIVE pred=NEGATIVE | One Star
+[262/300] true=NEGATIVE pred=NEGATIVE | Receiver Beware -- in how you use your g
+[263/300] true=NEGATIVE pred=POSITIVE | One Star
+[264/300] true=POSITIVE pred=POSITIVE | Gift
+[265/300] true=POSITIVE pred=POSITIVE | Five Stars
+[266/300] true=NEGATIVE pred=NEGATIVE | Never got my bonus
+[267/300] true=NEGATIVE pred=NEGATIVE | Cant reaat this product it is 2 days lat
+[268/300] true=NEGATIVE pred=NEGATIVE | Do not buy
+[269/300] true=NEGATIVE pred=NEGATIVE | They don't mark the cards with amounts!
+[270/300] true=POSITIVE pred=POSITIVE | fun
+[271/300] true=NEGATIVE pred=NEGATIVE | Confusing on using card on purchase, rel
+[272/300] true=NEGATIVE pred=NEGATIVE | Never again
+[273/300] true=POSITIVE pred=POSITIVE | Five Stars
+[274/300] true=NEGATIVE pred=NEGATIVE | Waste of money
+[275/300] true=POSITIVE pred=POSITIVE | Five Stars
+[276/300] true=POSITIVE pred=POSITIVE | Easy to reload
+[277/300] true=NEGATIVE pred=NEGATIVE | FAKE!!! DO NOT BUY!!! ZERO STARS
+[278/300] true=POSITIVE pred=POSITIVE | Good Deal for the Bonus
+[279/300] true=NEGATIVE pred=NEGATIVE | It’s not working.
+[280/300] true=NEGATIVE pred=NEGATIVE | Old Way was much better
+[281/300] true=POSITIVE pred=POSITIVE | gift card
+[282/300] true=POSITIVE pred=POSITIVE | Easy to use
+[283/300] true=NEGATIVE pred=NEGATIVE | Delivery was awry. Delivered to a wrong 
+[284/300] true=NEGATIVE pred=NEGATIVE | Takes hours to use the balance
+[285/300] true=NEGATIVE pred=NEGATIVE | total garbage
+[286/300] true=POSITIVE pred=POSITIVE | Works well
+[287/300] true=NEGATIVE pred=NEGATIVE | No message or who it was from
+[288/300] true=NEGATIVE pred=NEGATIVE | One Star
+[289/300] true=NEGATIVE pred=NEGATIVE | Muy mal no tener la opción de código dig
+[290/300] true=POSITIVE pred=POSITIVE | My go to gift card!
+[291/300] true=NEGATIVE pred=NEGATIVE | Didn’t order this
+[292/300] true=POSITIVE pred=POSITIVE | Five Stars
+[293/300] true=POSITIVE pred=POSITIVE | Just the thing!
+[294/300] true=POSITIVE pred=POSITIVE | Giftcard
+[295/300] true=POSITIVE pred=POSITIVE | Duh
+[296/300] true=POSITIVE pred=POSITIVE | Five Stars
+[297/300] true=NEGATIVE pred=NEGATIVE | Annoying
+[298/300] true=POSITIVE pred=POSITIVE | Five Stars
+[299/300] true=NEGATIVE pred=NEGATIVE | They don't care about the CUSTOMER!!!  H
+[300/300] true=POSITIVE pred=POSITIVE | Five Stars
+
+===== RESULTS =====
+n: 300
+unclassified: 0
+accuracy: 0.97
+precision: 0.9608
+recall: 0.98
+f1: 0.9703
+confusion: {'tp': 147, 'fp': 6, 'tn': 144, 'fn': 3}

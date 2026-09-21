@@ -1,0 +1,7 @@
+# Large downloadable raw dataset (60 MB; re-download if needed)
+Gift_Cards.jsonl
+Gift_Cards.jsonl.gz
+
+# Python
+__pycache__/
+*.pyc

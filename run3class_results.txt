@@ -1,0 +1,160 @@
+Classifying ...
+
+[1/150] true=NEGATIVE pred=NEGATIVE | No balance!!!
+[2/150] true=POSITIVE pred=POSITIVE | Four Stars
+[3/150] true=NEGATIVE pred=NEGATIVE | Came and was already used.
+[4/150] true=NEUTRAL  pred=NEGATIVE | What’s the point
+[5/150] true=NEGATIVE pred=NEGATIVE | Defective and unusable card!
+[6/150] true=POSITIVE pred=POSITIVE | Great presentation box
+[7/150] true=NEUTRAL  pred=NEUTRAL  | Amazon.com Gift Card Balance Reload
+[8/150] true=POSITIVE pred=POSITIVE | It is so easy, and a nice gift
+[9/150] true=POSITIVE pred=POSITIVE | Perfect gift
+[10/150] true=NEUTRAL  pred=NEUTRAL  | They really cute but don't have the amou
+[11/150] true=NEUTRAL  pred=NEUTRAL  | good for birthdays
+[12/150] true=POSITIVE pred=POSITIVE | Love this card.
+[13/150] true=NEUTRAL  pred=NEGATIVE | Gift card in cupcake tin
+[14/150] true=NEGATIVE pred=NEGATIVE | The tins are dented, scratched & dirty! 
+[15/150] true=POSITIVE pred=POSITIVE | Fast shipping!
+[16/150] true=NEUTRAL  pred=NEGATIVE | The gift message was not delivered. The 
+[17/150] true=POSITIVE pred=POSITIVE | Millennial gifts from a Grandmother!!
+[18/150] true=POSITIVE pred=POSITIVE | Meldy
+[19/150] true=POSITIVE pred=POSITIVE | Five Stars
+[20/150] true=NEUTRAL  pred=POSITIVE | Some discounts better than nothing
+[21/150] true=NEGATIVE pred=NEGATIVE | Don't buy
+[22/150] true=NEUTRAL  pred=NEGATIVE | Load time inconsistent.
+[23/150] true=POSITIVE pred=POSITIVE | Bonus $5 is great when you can find this
+[24/150] true=NEUTRAL  pred=NEGATIVE | i can buy two or three thousand dollar p
+[25/150] true=NEUTRAL  pred=POSITIVE | Three Stars
+[26/150] true=POSITIVE pred=POSITIVE | Easy to reload
+[27/150] true=POSITIVE pred=POSITIVE | Four Stars
+[28/150] true=NEGATIVE pred=NEGATIVE | DO NOT BUY
+[29/150] true=POSITIVE pred=POSITIVE | Perfect Gift
+[30/150] true=NEUTRAL  pred=NEGATIVE | Card not activated
+[31/150] true=POSITIVE pred=POSITIVE | Awesome little box
+[32/150] true=POSITIVE pred=NEUTRAL  | Five Stars
+[33/150] true=POSITIVE pred=NEUTRAL  | Gift Card
+[34/150] true=POSITIVE pred=POSITIVE | Five Stars
+[35/150] true=NEGATIVE pred=NEGATIVE | Four Gift Card Limit
+[36/150] true=POSITIVE pred=POSITIVE | Nice giftable tin package.
+[37/150] true=POSITIVE pred=POSITIVE | Great product !
+[38/150] true=NEUTRAL  pred=NEGATIVE | Be careful
+[39/150] true=NEGATIVE pred=NEGATIVE | Can't use on switch
+[40/150] true=NEGATIVE pred=NEGATIVE | Unable to use on the website
+[41/150] true=NEUTRAL  pred=NEGATIVE | High Purchase Fee
+[42/150] true=NEGATIVE pred=NEGATIVE | The card was correct but......
+[43/150] true=NEGATIVE pred=NEGATIVE | Nothing on gift card when my daughter tr
+[44/150] true=POSITIVE pred=POSITIVE | Easy and Fast E-Delivery
+[45/150] true=NEGATIVE pred=NEGATIVE | Tacky as a gift if there's no value indi
+[46/150] true=NEGATIVE pred=NEGATIVE | Unhappy & Upset
+[47/150] true=POSITIVE pred=POSITIVE | Five Stars
+[48/150] true=NEGATIVE pred=NEGATIVE | Frustrating
+[49/150] true=POSITIVE pred=POSITIVE | Five Stars
+[50/150] true=NEUTRAL  pred=NEUTRAL  | Not sure how to get the $10 bonus as adv
+[51/150] true=NEUTRAL  pred=NEUTRAL  | OK
+[52/150] true=NEUTRAL  pred=NEUTRAL  | Three Stars
+[53/150] true=NEUTRAL  pred=NEUTRAL  | Work great but Guaranteed Delivery Next 
+[54/150] true=NEGATIVE pred=NEGATIVE | Don't waste your time or money
+[55/150] true=POSITIVE pred=POSITIVE | Giftcard
+[56/150] true=POSITIVE pred=POSITIVE | Just the thing!
+[57/150] true=POSITIVE pred=POSITIVE | Five Stars
+[58/150] true=NEGATIVE pred=NEGATIVE | DO NOT BUY GIFT CARDS THROUGH AMAZON
+[59/150] true=NEUTRAL  pred=NEUTRAL  | I purchased this on as a gift for my boy
+[60/150] true=POSITIVE pred=POSITIVE | The real deal
+[61/150] true=POSITIVE pred=POSITIVE | made grand child happy
+[62/150] true=NEGATIVE pred=NEUTRAL  | Huh
+[63/150] true=NEUTRAL  pred=NEUTRAL  | I don't really see the point.
+[64/150] true=NEGATIVE pred=NEGATIVE | My mom got the gift card, but the Mother
+[65/150] true=NEUTRAL  pred=NEGATIVE | Three Stars
+[66/150] true=NEGATIVE pred=NEGATIVE | Did not perform as advertised!
+[67/150] true=NEGATIVE pred=NEGATIVE | Taking a while to receive it
+[68/150] true=NEGATIVE pred=POSITIVE | Wonderful ❣️
+[69/150] true=POSITIVE pred=POSITIVE | Really cute for graduation parties
+[70/150] true=NEGATIVE pred=NEGATIVE | I want to cancel this order. 😩
+[71/150] true=POSITIVE pred=POSITIVE | Five Stars
+[72/150] true=NEUTRAL  pred=NEUTRAL  | Three Stars
+[73/150] true=NEUTRAL  pred=NEUTRAL  | The amount is not posted on the gift car
+[74/150] true=NEUTRAL  pred=POSITIVE | Ange
+[75/150] true=NEGATIVE pred=NEGATIVE | Scam for 20%. Any buca lets you join ecl
+[76/150] true=NEGATIVE pred=NEGATIVE | Gift card cracked and box came damaged
+[77/150] true=NEUTRAL  pred=NEGATIVE | The box was scratched.
+[78/150] true=POSITIVE pred=NEUTRAL  | Easy
+[79/150] true=NEUTRAL  pred=POSITIVE | Three Stars
+[80/150] true=POSITIVE pred=POSITIVE | Putting $100 reload on my gift card
+[81/150] true=NEGATIVE pred=NEGATIVE | Amazon Will NOT replace LOST or STOLEN c
+[82/150] true=NEGATIVE pred=NEGATIVE | Irritating Purchase - Has my gift giving
+[83/150] true=NEGATIVE pred=NEGATIVE | so stupid: (
+[84/150] true=NEUTRAL  pred=NEUTRAL  | Three Stars
+[85/150] true=POSITIVE pred=POSITIVE | Duh
+[86/150] true=NEGATIVE pred=NEUTRAL  | not acceptable for canadian phrmacy on-l
+[87/150] true=POSITIVE pred=POSITIVE | Easter
+[88/150] true=NEUTRAL  pred=NEGATIVE | Arrived late
+[89/150] true=NEUTRAL  pred=NEGATIVE | There's usage restriction on this
+[90/150] true=NEGATIVE pred=NEGATIVE | Garbage
+[91/150] true=NEGATIVE pred=NEGATIVE | WTF?
+[92/150] true=POSITIVE pred=POSITIVE | Five Stars
+[93/150] true=POSITIVE pred=POSITIVE | Great gift
+[94/150] true=NEUTRAL  pred=NEUTRAL  | Word of Caution...
+[95/150] true=NEUTRAL  pred=NEUTRAL  | Hard call...
+[96/150] true=POSITIVE pred=POSITIVE | Simple to do. I do it all the time.
+[97/150] true=NEGATIVE pred=NEGATIVE | Just Awful
+[98/150] true=NEGATIVE pred=NEGATIVE | No amount anywhere on the card! Annoying
+[99/150] true=NEGATIVE pred=NEGATIVE | Counterfeit cards
+[100/150] true=NEUTRAL  pred=POSITIVE | Review
+[101/150] true=NEGATIVE pred=NEGATIVE | Not Labeled!
+[102/150] true=NEUTRAL  pred=NEGATIVE | Three Stars
+[103/150] true=POSITIVE pred=NEUTRAL  | Five Stars
+[104/150] true=POSITIVE pred=POSITIVE | Works well
+[105/150] true=NEUTRAL  pred=NEGATIVE | Amazon GC reload
+[106/150] true=NEGATIVE pred=NEGATIVE | DO NOT BUY
+[107/150] true=POSITIVE pred=NEUTRAL  | Good
+[108/150] true=NEGATIVE pred=NEGATIVE | Flimsy and bent
+[109/150] true=NEUTRAL  pred=NEGATIVE | Why not a gift card?
+[110/150] true=NEGATIVE pred=NEGATIVE | Buyer beware, card does not work!
+[111/150] true=NEGATIVE pred=NEGATIVE | Card was no good
+[112/150] true=NEGATIVE pred=NEGATIVE | DO NOT BUY - You can't use them anywhere
+[113/150] true=NEUTRAL  pred=POSITIVE | Nice way to gift
+[114/150] true=NEUTRAL  pred=NEUTRAL  | Do we really get a 2% back???
+[115/150] true=NEGATIVE pred=NEGATIVE | Giftcard was hacked
+[116/150] true=POSITIVE pred=NEUTRAL  | ok
+[117/150] true=POSITIVE pred=POSITIVE | Five Stars
+[118/150] true=NEUTRAL  pred=NEGATIVE | Three Stars
+[119/150] true=POSITIVE pred=POSITIVE | Really lovable bear.
+[120/150] true=POSITIVE pred=POSITIVE | Great gift
+[121/150] true=NEGATIVE pred=NEGATIVE | Arrived ripped. Packaging was fine so ca
+[122/150] true=NEGATIVE pred=NEGATIVE | Poor customer servce
+[123/150] true=NEGATIVE pred=NEGATIVE | To save and use when I want not to be au
+[124/150] true=POSITIVE pred=POSITIVE | Five Stars
+[125/150] true=NEGATIVE pred=NEGATIVE | Gift card looked used
+[126/150] true=NEUTRAL  pred=NEUTRAL  | Easy gift
+[127/150] true=NEGATIVE pred=NEGATIVE | Amazon Holiday Giftcard
+[128/150] true=NEUTRAL  pred=NEUTRAL  | what
+[129/150] true=POSITIVE pred=POSITIVE | free money!
+[130/150] true=NEGATIVE pred=NEGATIVE | Kind of Lousy
+[131/150] true=NEUTRAL  pred=POSITIVE | pretty good.
+[132/150] true=NEUTRAL  pred=NEUTRAL  | If to use again?
+[133/150] true=NEUTRAL  pred=NEUTRAL  | Three Stars
+[134/150] true=NEGATIVE pred=NEGATIVE | Didn't get $10 bonus for buying $50 wort
+[135/150] true=NEUTRAL  pred=NEGATIVE | Easy
+[136/150] true=POSITIVE pred=POSITIVE | Five Stars
+[137/150] true=NEUTRAL  pred=POSITIVE | easy gifted
+[138/150] true=POSITIVE pred=POSITIVE | fun
+[139/150] true=POSITIVE pred=POSITIVE | Love this
+[140/150] true=NEUTRAL  pred=POSITIVE | Gift card
+[141/150] true=POSITIVE pred=POSITIVE | Just in time..
+[142/150] true=NEUTRAL  pred=NEGATIVE | Service
+[143/150] true=NEUTRAL  pred=NEGATIVE | Boring
+[144/150] true=NEGATIVE pred=NEUTRAL  | card
+[145/150] true=NEGATIVE pred=NEGATIVE | No
+[146/150] true=NEUTRAL  pred=NEGATIVE | Didn’t get card with box
+[147/150] true=NEUTRAL  pred=NEUTRAL  | but was hoping it would have come in bet
+[148/150] true=POSITIVE pred=POSITIVE | Reload to use up gift card or debit card
+[149/150] true=NEUTRAL  pred=NEUTRAL  | A gift from ?
+[150/150] true=NEGATIVE pred=NEGATIVE | It's wasting their time and makes them d
+
+===== RESULTS =====
+n: 150
+unclassified: 0
+accuracy: 0.74
+macro_f1: 0.7214
+per_class: {'POSITIVE': {'count': 50, 'precision': 0.8148, 'recall': 0.88, 'f1': 0.8462}, 'NEUTRAL': {'count': 50, 'precision': 0.7, 'recall': 0.42, 'f1': 0.525}, 'NEGATIVE': {'count': 50, 'precision': 0.697, 'recall': 0.92, 'f1': 0.7931}}
+confusion: {'POSITIVE': {'POSITIVE': 44, 'NEUTRAL': 6, 'NEGATIVE': 0}, 'NEUTRAL': {'POSITIVE': 9, 'NEUTRAL': 21, 'NEGATIVE': 20}, 'NEGATIVE': {'POSITIVE': 1, 'NEUTRAL': 3, 'NEGATIVE': 46}}
